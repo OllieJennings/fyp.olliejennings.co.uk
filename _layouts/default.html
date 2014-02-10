@@ -1,10 +1,148 @@
 <!DOCTYPE html>
 <html>
   <head>
-  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }}</title>
+
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
   </head>
   <body>
   
-  
+    <header>
+      <h1>Prototype Build v0.0.3</h1>
+    </header>
+
+
+    <section class="content">
+      <span class="track-name">Pitbull - Timber Ft Kesha</span>
+      <span class="track-details">help</span>
+
+      <button onclick="fetchData();">Fetch song data</button>
+    </section>
+
+
+    <canvas id="canvas" width="800px" height="500px"></canvas>
+
+    <!--
+
+    http://developer.echonest.com/api/v4/song/search?api_key=FILDTEOIK2HBORODV&artist_id=AR4ZYGI1187B995AA2&results=1&sort=duration-desc&bucket=audio_summary
+    
+
+    http://developer.echonest.com/api/v4/song/search?api_key=FILDTEOIK2HBORODV&artist=the+postal+service&sort=song_hotttnesss-desc
+    -->
+
+    <script>
+      fetchData = function() {
+        $.ajax({
+          url: "http://developer.echonest.com/api/v4/song/search?api_key=SM5R9B9IVUQZKGYS9&artist=pitbull&title=Timber&bucket=audio_summary&results=1"
+        }).done(function (data) {
+          console.log(data.response.songs);
+          song = data.response.songs[0];
+          $('.track-details')[0].innerHTML = "</br></br>Artist: " + song.artist_name + "</br>"
+          + "Title: " + song.title + "</br>"
+          + "Tempo: " + song.audio_summary.tempo + "</br>"
+          + "Energy: " + song.audio_summary.energy + "</br>"
+          + "Accoustiness: " + song.audio_summary.acousticness + "</br>"
+          + "Danceability: " + song.audio_summary.danceability + "</br>"
+          + "Liveness: " + song.audio_summary.liveness + "</br>"
+          + "loudness: " + song.audio_summary.loudness + "</br>"
+          + "Speechiness: " + song.audio_summary.speechiness + "</br>"
+          + "Valence: " + song.audio_summary.valence + "</br>";
+        });
+      };
+
+      var ctx; // audio context
+      var buf; //audio buffer
+      var src;
+
+      var fft; //fft audio node 
+      var samples = 128; 
+      var setup = false; //indicate if audio is set up yet
+
+
+
+      init = function () {
+        try {
+          ctx = new webkitAudioContext();
+          setupCanvas();
+          loadFile();
+        } catch (e) {
+          console.log('You need a browser that supports webkitAudio API');
+        }
+      };
+
+      window.addEventListener('load', init, false);
+
+
+      loadFile = function () {
+        var req = new XMLHttpRequest(); 
+        req.open("GET","/assets/music/pitbull.mp3",true); 
+        req.responseType = "arraybuffer"; 
+        req.onload = function() { 
+          //decode the loaded data 
+          ctx.decodeAudioData(req.response, function(buffer) { 
+            buf = buffer; 
+            console.log('ALL READY TO PLAY');
+          }); 
+        }; 
+        req.send();
+      };
+
+
+      playAudio = function () {
+        src = ctx.createBufferSource();
+
+        src.buffer = buf;
+        
+        //create fft 
+        fft = ctx.createAnalyser(); 
+        fft.fftSize = samples; 
+
+
+        //connect them up into a chain 
+        src.connect(fft); 
+        fft.connect(ctx.destination); 
+
+
+        src.noteOn(0);
+        setup = true; 
+      };
+
+      stopAudio = function () {
+        src.noteOff(0);
+      };
+
+
+      var gfx; 
+      function setupCanvas() { 
+        var canvas = document.getElementById('canvas'); 
+        gfx = canvas.getContext('2d'); 
+        webkitRequestAnimationFrame(update); 
+      };
+
+      function update() { 
+        webkitRequestAnimationFrame(update); 
+        if(!setup) return; 
+        gfx.clearRect(0,0,800,600); 
+        gfx.fillStyle = 'gray'; 
+        gfx.fillRect(0,0,800,600); 
+
+        var data = new Uint8Array(samples); 
+        fft.getByteFrequencyData(data); 
+        gfx.fillStyle = 'red'; 
+        for(var i=0; i<data.length; i++) { 
+          gfx.fillRect(100+i*4,100+256-data[i]*2,3,100); 
+        } 
+
+      };
+
+    </script>
+
   </body>
 </html>
