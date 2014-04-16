@@ -1,0 +1,15 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+api.clientKey.post	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/api.js	/^api.clientKey.post = function (clientKey) {$/;"	f	language:JavaScript
+api.extract.collection	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/api.js	/^api.extract.collection = function (response) {$/;"	f	language:JavaScript
+api.extract.key	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/api.js	/^api.extract.key = function (response, clientKey) {$/;"	f	language:JavaScript
+initCircles	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/main.js	/^initCircles = function () {$/;"	f	language:JavaScript
+vis.begin.circles	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/visualisationEngine.js	/^vis.begin.circles = function (index) {$/;"	f	language:JavaScript
+vis.begin.render	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/visualisationEngine.js	/^vis.begin.render = function () {$/;"	f	language:JavaScript
+vis.init	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/visualisationEngine.js	/^vis.init = function (songArr) {$/;"	f	language:JavaScript
+vis.mappings.circles.18	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/visualisationEngine.js	/^  "18": {$/;"	p	language:JavaScript
+vis.matchSongs	/Users/olliejennings/code/fyp.olliejennings.co.uk/assets/js/visualisationEngine.js	/^vis.matchSongs = function (circle) {$/;"	f	language:JavaScript
